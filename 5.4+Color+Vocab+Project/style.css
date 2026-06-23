@@ -1,0 +1,65 @@
+* {
+  background-color: RGBA(0, 0, 0, 0.85);
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.color-title {
+  font-size: 1em;
+  font-weight: normal;
+}
+
+#red {
+  color: red;
+}
+
+#blue {
+  color: blue;
+}
+
+#orange {
+  color: orange;
+}
+
+#green {
+  color: green;
+}
+
+#yellow {
+  color: yellow;
+}
+
+img {
+  width: 100px;
+  height: 100px;
+  border-radius: 10%;
+}
+
+h1 {
+  font-size: 1.25em;
+  font-weight: bold;
+  text-align: center;
+  color: gray;
+  font-family: "Arial", sans-serif;
+}
+
+h2 {
+  font-size: 1.5em;
+  font-weight: bold;
+  text-align: center;
+  color: white;
+  font-family: "Tangerine", cursive;
+}
+
+.tangerine-regular {
+  font-family: "Tangerine", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.tangerine-bold {
+  font-family: "Tangerine", cursive;
+  font-weight: 700;
+  font-style: normal;
+}
