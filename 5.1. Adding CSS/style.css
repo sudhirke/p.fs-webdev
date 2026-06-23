@@ -1,0 +1,20 @@
+h1 {
+  color: green;
+}
+
+.t-blue {
+  color: blue;
+}
+
+.t-purple {
+  color: purple;
+}
+
+.t-red {
+  color: red;
+}
+
+p[company="spxpert"] {
+  color: forestgreen;
+  font-weight: bold;
+}
