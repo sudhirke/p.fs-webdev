@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mondrian Project</title>
+    <style>
+      /* 
+    Write your CSS here 
+    Gap Colour: #000
+    White: #F0F1EC
+    Red: #E72F24
+    Black: #232629
+    Blue: #004592
+    Yellow: #F9D01E
+
+    For dimensions, see dimensions.png image.
+    HINT: Remember you can't change the properties of grid lines.
+    But grid lines are transparent!
+    */
+      .item {
+        background-color: white;
+        justify-content: center;
+        align-items: center;
+      }
+      .red {
+        background-color: red;
+      }
+      .white {
+        background-color: white;
+      }
+      .black {
+        background-color: black;
+      }
+      .blue {
+        background-color: #004592;
+      }
+      .yellow {
+        background-color: #f9d01e;
+      }
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        height: 748px;
+        width: 748px;
+        display: grid;
+        background-color: Black;
+        grid-template-columns: 320px 198px 153px 50px;
+        grid-template-rows: 414px 130px 155px 20px;
+        gap: 9px;
+      }
+
+      .two {
+        grid-column: span 3;
+      }
+
+      .three {
+        grid-row: span 2;
+      }
+      .four {
+        grid-row: span 2;
+        grid-column: span 2;
+      }
+
+      .six {
+        grid-row: span 2;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Write your HTML here -->
+    <div class="container">
+      <div class="item red">Red</div>
+      <div class="item white two">2</div>
+      <div class="item white three">3</div>
+      <div class="item white four">4</div>
+      <div class="item blue five">5</div>
+      <div class="item white six">6</div>
+      <div class="item white seven">7</div>
+      <div class="item yellow eight">8</div>
+      <div class="item black nine">9</div>
+    </div>
+  </body>
+</html>
