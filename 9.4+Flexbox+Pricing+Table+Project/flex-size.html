@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flex Box Size</title>
+    <style>
+      .container {
+        display: flex;
+        gap: 8px;
+      }
+      .item {
+        background-color: darkolivegreen;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 10px;
+        flex: 1; /* This allows the items to grow and shrink */
+        text-align: center;
+        flex-basis: 200px; /* This sets the initial size of the items */
+        min-width: 100px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="item">Item 1</div>
+      <div class="item">Item 2</div>
+      <div class="item">Item 3</div>
+    </div>
+  </body>
+</html>
