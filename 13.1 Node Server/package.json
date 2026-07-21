@@ -1,0 +1,12 @@
+{
+  "name": "13.1-node-server",
+  "version": "1.0.0",
+  "description": "Building a simple http server using Node.js",
+  "license": "ISC",
+  "author": "sudhir-kesharwani",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
