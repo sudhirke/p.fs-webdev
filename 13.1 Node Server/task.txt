@@ -1,0 +1,13 @@
+REST API - JSON
+###############
+
+[X] GET /users - List all users
+[X] GET /users/XX - Get the user with given id,  dynamic path parameters /api/users/:id
+
+
+POST /users - create a new user
+PATH /users/XX - edit the use with given ID
+
+DELETE /users/XX - Delete the given user
+
+### GENERATE Fake data using https://mockaroo.com/

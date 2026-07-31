@@ -1,12 +1,15 @@
 {
   "name": "13.1-node-server",
   "version": "1.0.0",
-  "description": "Building a simple http server using Node.js",
+  "description": "",
   "license": "ISC",
-  "author": "sudhir-kesharwani",
+  "author": "Sudhir Kesharwani",
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
   }
 }
