@@ -11,3 +11,8 @@ PATH /users/XX - edit the use with given ID
 DELETE /users/XX - Delete the given user
 
 ### GENERATE Fake data using https://mockaroo.com/
+
+*** Mongo DB Node **
+- Schema - Define the structure
+-- Schema = Model
+-- Using model to do CRUD operation

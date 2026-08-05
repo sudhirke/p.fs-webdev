@@ -3,8 +3,34 @@ const fs = require("fs");
 const users = require("./users.json");
 const app = express();
 
+//Mongoose Step0 - Import Mongoose
+const { MongoClient, ServerApiVersion } = require("mongodb");
+
+async function runGetStarted() {
+  // Replace the uri string with your connection string
+  const uri =
+    "mongodb+srv://mongo_user:Y6HKhwnAzZB4taQZ@clusterru.bjlvp.mongodb.net/?retryWrites=true&w=majority";
+  const client = new MongoClient(uri);
+  try {
+    const database = client.db("sample_mflix");
+    const movies = database.collection("movies");
+    // Queries for a movie that has a title value of 'Back to the Future'
+    const query = { title: "Titanic" };
+    const movie = await movies.findOne(query);
+    console.log(movie);
+  } finally {
+    await client.close();
+  }
+}
+
 app.use(express.urlencoded({ extended: false }));
 const PORT = 8000;
+
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  runGetStarted().catch(console.dir);
+  next();
+});
 
 // For browsers return formatted HTML when the /users endpoint is accessed. -->
 app.get("/users", (req, res) => {
