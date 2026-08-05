@@ -8,8 +8,8 @@ const { MongoClient, ServerApiVersion } = require("mongodb");
 
 async function runGetStarted() {
   // Replace the uri string with your connection string
-  const uri =
-    "mongodb+srv://mongo_user:Y6HKhwnAzZB4taQZ@clusterru.bjlvp.mongodb.net/?retryWrites=true&w=majority";
+  const uri = process.env.MONGODB_CONNECTION_STRING;
+
   const client = new MongoClient(uri);
   try {
     const database = client.db("sample_mflix");
