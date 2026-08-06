@@ -1,153 +1,97 @@
+//require to load environnent file values
+const { loadEnvFile } = require("node:process");
+loadEnvFile();
+
 const express = require("express");
 const fs = require("fs");
-const users = require("./users.json");
 const app = express();
+const mongoose = require("mongoose"); //require to load mongoose module
 
-//Mongoose Step0 - Import Mongoose
-const { MongoClient, ServerApiVersion } = require("mongodb");
+//1. Define Schema for users collection
+const userSchema = new mongoose.Schema(
+  {
+    first_name: { type: String, required: true },
+    last_name: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    gender: String,
+    job_title: String,
+  },
+  { timestamps: true },
+); // Add timestamps option to automatically add createdAt and updatedAt fields
 
-async function runGetStarted() {
-  // Replace the uri string with your connection string
-  const uri = process.env.MONGODB_CONNECTION_STRING;
+//2. Create a model for the users collection using the schema
+const User = mongoose.model("User", userSchema);
 
-  const client = new MongoClient(uri);
-  try {
-    const database = client.db("sample_mflix");
-    const movies = database.collection("movies");
-    // Queries for a movie that has a title value of 'Back to the Future'
-    const query = { title: "Titanic" };
-    const movie = await movies.findOne(query);
-    console.log(movie);
-  } finally {
-    await client.close();
-  }
-}
+//3. Connect to MongoDB Atlas using the connection string from the .env file
+const uri = process.env.MONGODB_CONNECTION_STRING;
+mongoose
+  .connect(uri)
+  .then(() => {
+    console.log("SUCCESS: Connected to MongoDB Atlas");
+  })
+  .catch((err) => {
+    console.error("ERROR: Unable to connect to MongoDB Atlas:", err);
+  });
 
 app.use(express.urlencoded({ extended: false }));
 const PORT = 8000;
 
 app.use((req, res, next) => {
   console.log(`${req.method} ${req.url}`);
-  runGetStarted().catch(console.dir);
+  console.log(
+    "Middleware-01 - Request received at " + new Date().toISOString(),
+  );
   next();
 });
 
 // For browsers return formatted HTML when the /users endpoint is accessed. -->
-app.get("/users", (req, res) => {
-  const userList = users
-    .map(
-      (user) => `<li>${user.first_name} ${user.last_name} - ${user.email}</li>`,
-    )
-    .join("");
-  const html = `
-      <html>
-        <head>
-          <title>Users</title>
-        </head>
-        <body>
-          <h1>Users</h1>
-          <ul>${userList}</ul>
-        </body>
-      </html>
-    `;
+app.get("/users", async (req, res) => {
+  const allUsers = await User.find({});
+  const html = `<ul>${allUsers.map((user) => `<li>${user.first_name} ${user.last_name} - ${user.email}</li>`).join("")}</ul>`;
   res.send(html);
 });
 
 // This is a simple Express server that listens on port 8000 and responds with "Hello, World!" when the root URL is accessed. -->
 // Users as a JSON response when the /api/users endpoint is accessed. -->
-app.get("/api/users", (req, res) => {
-  return res.json(users);
-});
-
-//PUT Request to create a new user
-app.put("/api/users", express.json(), (req, res) => {
-  const { first_name, last_name, email } = req.body;
-  if (!first_name || !last_name || !email) {
-    return res.status(400).json({ error: "Missing required fields" });
-  }
-  const newUser = {
-    id: users.length + 1,
-    first_name,
-    last_name,
-    email,
-  };
-  users.push(newUser);
-  return res.status(201).json(newUser);
+app.get("/api/users", async (req, res) => {
+  const users = await User.find({});
+  res.json(users);
 });
 
 //Combine different requests for the same endpoint using app.route() method
 app
   .route("/api/users/:id")
-  .get((req, res) => {
-    const user = users.find((u) => u.id === parseInt(req.params.id));
+  .get(async (req, res) => {
+    //read user from MonboDB Atlas using Mongoose
+    const user = await User.findById(req.params.id);
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
     return res.json(user);
   })
-  .patch(express.json(), (req, res) => {
-    const userIndex = users.findIndex((u) => u.id === parseInt(req.params.id));
-    if (userIndex === -1) {
-      return res.status(404).json({ error: "User not found" });
-    }
+  .patch(express.json(), async (req, res) => {
     const { first_name, last_name, email, gender, job_title } = req.body;
     if (!first_name || !last_name || !email) {
       return res.status(400).json({ error: "Missing required fields" });
     }
-    users[userIndex] = {
-      id: parseInt(req.params.id),
-      first_name,
-      last_name,
-      email,
-      gender,
-      job_title,
-    };
+    //Update user in MongoDB Atlas using Mongoose
+    const user = await User.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    });
 
-    //write the data into file users.json using fs.writeFile() method. The JSON.stringify() method is used to convert the users array into a JSON string, and the null and 2 arguments are used to format the JSON string with indentation for better readability.
-    fs.writeFile(
-      "./users.json",
-      JSON.stringify(users, null, 2),
-      (err, data) => {
-        if (err) {
-          console.error(err);
-          return res.status(500).json({
-            error:
-              "Failed to save details about " + `${first_name} ${last_name}`,
-          });
-        } else {
-          console.log(`User ${first_name} ${last_name} updated successfully`);
-        }
-      },
-    );
-    return res.json(users[userIndex]);
-  })
-  .delete((req, res) => {
-    const userIndex = users.findIndex((u) => u.id === parseInt(req.params.id));
-    if (userIndex === -1) {
+    if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
-    const deletedUser = users.splice(userIndex, 1);
 
-    //update details in json file
-    fs.writeFile(
-      "./users.json",
-      JSON.stringify(users, null, 2),
-      (err, data) => {
-        if (err) {
-          console.error(err);
-          return res.status(500).json({
-            error:
-              "Failed to delete details about " +
-              `${deletedUser[0].first_name} ${deletedUser[0].last_name}`,
-          });
-        } else {
-          console.log(
-            `User ${deletedUser[0].first_name} ${deletedUser[0].last_name} deleted successfully`,
-          );
-        }
-      },
-    );
-    return res.json(deletedUser[0]);
+    return res.json(user);
+  })
+  .delete(async (req, res) => {
+    const user = await User.findByIdAndDelete(req.params.id);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    return res.json(user);
   });
 
 // POST Route to create a new user
@@ -157,68 +101,29 @@ app.post("/api/users", express.json(), (req, res) => {
     return res.status(400).json({ error: "Missing required fields" });
   }
   const newUser = {
-    id: users.length + 1,
     first_name,
     last_name,
     email,
     gender,
     job_title,
   };
-  //Add the new user to the users array and save it to the users.json file
-  users.push(newUser);
-
-  //write the data into file users.json using fs.writeFile() method. The JSON.stringify() method is used to convert the users array into a JSON string, and the null and 2 arguments are used to format the JSON string with indentation for better readability.
-  fs.writeFile("./users.json", JSON.stringify(users, null, 2), (err, data) => {
-    if (err) {
-      console.error(err);
-      return res.status(500).json({ error: "Failed to save user" });
-    } else {
+  // Insert to MongoDB Atlas using Mongoose
+  const user = new User(newUser);
+  user
+    .save()
+    .then(() => {
       console.log(
         `User ${newUser.first_name} ${newUser.last_name} saved successfully`,
       );
-    }
+    })
+    .catch((err) => {
+      console.error("ERROR: Failed to save user:", err);
+    });
+
+  return res.status(201).json({
+    msg: `User ${newUser.first_name} ${newUser.last_name} saved successfully`,
   });
-
-  return res.status(201).json(newUser);
 });
-
-/* 
-// Get specific users using dynamic parameters
-app.get("/api/users/:id", (req, res) => {
-  const user = users.find((u) => u.id === parseInt(req.params.id));
-  if (!user) {
-    return res.status(404).json({ error: "User not found" });
-  }
-  return res.json(user);
-});
-
-app.patch("/api/users/:id", express.json(), (req, res) => {
-  const userIndex = users.findIndex((u) => u.id === parseInt(req.params.id));
-  if (userIndex === -1) {
-    return res.status(404).json({ error: "User not found" });
-  }
-  const { first_name, last_name, email } = req.body;
-  if (!first_name || !last_name || !email) {
-    return res.status(400).json({ error: "Missing required fields" });
-  }
-  users[userIndex] = {
-    id: parseInt(req.params.id),
-    first_name,
-    last_name,
-    email,
-  };
-  return res.json(users[userIndex]);
-});
-
-app.delete("/api/users/:id", (req, res) => {
-  const userIndex = users.findIndex((u) => u.id === parseInt(req.params.id));
-  if (userIndex === -1) {
-    return res.status(404).json({ error: "User not found" });
-  }
-  const deletedUser = users.splice(userIndex, 1);
-  return res.json(deletedUser[0]);
-}); 
-*/
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}/api/users`);
