@@ -25,7 +25,10 @@ async function handleGenerateShortUrl(req, res) {
     const shortUrl = `http://localhost:8001/url/${shortId}`;
 
     // Return the short URL in the response
-    res.status(201).json({ shortUrl });
+    //res.status(201).json({ shortUrl });
+
+    //return hhtml page with the short URL
+    res.render("home", { shortUrl: shortUrl }); // Render the EJS template with the short URL
   } catch (error) {
     console.error(
       "handleGenerateShortUrl - Error generating short URL:",
@@ -88,9 +91,36 @@ async function handleGetAnalytics(req, res) {
   }
 }
 
+//List all Short URLs Handler
+async function handleListAllShortUrls(req, res) {
+  try {
+    // Retrieve all URL documents from the database
+    const urlDocs = await URL.find();
+
+    // Map the documents to a simplified format for response
+    const shortUrls = urlDocs.map((doc) => ({
+      shortId: doc.shortId,
+      redirectUrl: doc.redirectUrl,
+      shortUrl: doc.shortUrl,
+      totalVisits: doc.visitHistory.length,
+    }));
+
+    // Return the list of short URLs in the response
+    //res.status(200).json({ shortUrls });
+    res.render("home", { urls: shortUrls }); // Render the EJS template with the short URLs
+  } catch (error) {
+    console.error(
+      "handleListAllShortUrls - Error retrieving list of short URLs:",
+      error,
+    );
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+}
+
 //Export the module
 module.exports = {
   handleGenerateShortUrl,
   handleGetRedirectUrls,
   handleGetAnalytics,
+  handleListAllShortUrls,
 };
