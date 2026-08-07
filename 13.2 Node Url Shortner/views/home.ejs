@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SPXPERT | URL Shortener</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            margin-top: 20px;
+        }
+        input[type="url"] {
+            width: 300px;
+            padding: 10px;
+            margin-right: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        section {
+            margin-top: 40px;
+        }
+    </style>
+  </head>
+  <body>
+    <h1>URL Shortener by SPXPERT</h1>
+    <p>Welcome to the URL Shortener!</p>
+    <% if (typeof shortUrl !== 'undefined') { %>
+      <p>Your shortened URL is: <a href="<%= shortUrl %>"><%= shortUrl %></a></p>
+    <% } %>
+    <form action="/url" method="POST">
+      <label for="url">Enter URL to shorten:</label>
+      <input type="url" id="url" name="url" required placeholder="https://example.com"/>
+      <button type="submit">Shorten</button>
+    </form> 
+    <section>
+      <h2>List of Short URLs</h2>
+        <div>
+            <% if(locals.urls) { %>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Short Id</th>
+                            <th>Redirects To</th>
+                            <th>Visits </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% urls.forEach((url) => { %>
+                            <tr>
+                                <td><a href="<%= url.shortUrl %>"><%= url.shortId %></a></td>
+                                <td><%= url.redirectUrl %></td>
+                                <td><%= url.totalVisits%></td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+       
+      <%}%>
+      </div>
+    </section>
+    </body>
+</html>
