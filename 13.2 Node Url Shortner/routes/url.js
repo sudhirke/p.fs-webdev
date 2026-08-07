@@ -12,7 +12,10 @@ const router = express.Router();
 //ROUTES
 router.get("/analytics/:shortId", handleGetAnalytics);
 router.get("/:shortId", handleGetRedirectUrls);
-router.post("/", handleGenerateShortUrl).get("/", handleListAllShortUrls);
+router.post("/", handleGenerateShortUrl);
+
+// Commeting this since we are handling this with staticRoutes
+//.get("/", handleListAllShortUrls);
 
 //Export the router
 module.exports = router;
