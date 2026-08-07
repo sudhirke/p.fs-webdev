@@ -1,0 +1,13 @@
+{
+  "name": "hello-node",
+  "version": "1.0.0",
+  "description": "This is first NPM package, running nodejs",
+  "license": "ISC",
+  "author": "sudhir-kesharwani",
+  "type": "commonjs",
+  "main": "hello.js",
+  "scripts": {
+    "test": "test",
+    "start": "node hello.js"
+  }
+}
