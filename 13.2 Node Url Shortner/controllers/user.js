@@ -30,12 +30,11 @@ async function handleUserLogin(req, res) {
   }
 
   //Create new session id with UUID and save it to map (auth)
-  const sessionId = uuidv4();
-  setUser(sessionId, user);
-  console.log(`CTRL-Auth: Saving to cookie ${user} - ${sessionId}`);
+  //const sessionId = uuidv4();
+  const token = setUser(user);
 
   //Set cookie in response
-  res.cookie("uid", sessionId);
+  res.cookie("uid", token);
 
   //return to home page
   return res.redirect("/");
