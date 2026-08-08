@@ -13,6 +13,8 @@ async function handleGenerateShortUrl(req, res) {
       return res.status(400).json({ error: "ERROR: URL is required" });
     }
 
+    console.log(`Creating short-url by: ${req.user}`);
+
     // Generate a short URL (you can implement your own logic here)
     const shortId = nanoid(8); // Generate a unique 8-character ID
     await URL.create({
@@ -20,6 +22,7 @@ async function handleGenerateShortUrl(req, res) {
       redirectUrl: url,
       shortUrl: `http://localhost:8001/url/${shortId}`,
       visitHistory: [],
+      createdBy: req.user._id,
     });
 
     const shortUrl = `http://localhost:8001/url/${shortId}`;
