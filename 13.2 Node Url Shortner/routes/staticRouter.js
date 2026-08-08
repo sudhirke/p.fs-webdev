@@ -4,10 +4,14 @@ const {
   handleStaticRoutes,
   handleSignUp,
 } = require("../controllers/staticRouter");
+const { handleUserLogin } = require("../controllers/user");
 
 //Render home page for static
 router.get("/", handleStaticRoutes);
 router.get("/signup", handleSignUp);
+router.get("/login", (req, res) => {
+  return res.render("login");
+});
 
 //export the router
 module.exports = router;

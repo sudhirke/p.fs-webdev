@@ -1,5 +1,7 @@
 const User = require("../models/users");
-
+const { v4: uuidv4 } = require("uuid");
+const { setUser } = require("../service/auth");
+//handler for User Sign Up
 async function handleUserSignup(req, res) {
   //extract data from request body
   const { username, email, password } = req.body;
@@ -12,6 +14,34 @@ async function handleUserSignup(req, res) {
   });
 }
 
+//handler for User Login page
+async function handleUserLogin(req, res) {
+  //extract data from request body
+  const { email, password } = req.body;
+
+  //find user with this email
+  const user = await User.findOne({ email, password });
+
+  //REturn to login page with error
+  if (!user) {
+    return res.render("login", {
+      error: "ERROR: Invalid Username or Password!",
+    });
+  }
+
+  //Create new session id with UUID and save it to map (auth)
+  const sessionId = uuidv4();
+  setUser(sessionId, user);
+  console.log(`CTRL-Auth: Saving to cookie ${user} - ${sessionId}`);
+
+  //Set cookie in response
+  res.cookie("uid", sessionId);
+
+  //return to home page
+  return res.redirect("/");
+}
+
 module.exports = {
   handleUserSignup,
+  handleUserLogin,
 };
