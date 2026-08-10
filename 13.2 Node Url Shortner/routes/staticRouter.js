@@ -1,4 +1,5 @@
 const URL = require("../models/url"); //Import the URL model
+const { restrictTo } = require("../middlewares/auth");
 const router = require("express").Router(); //Create a new router instance
 const {
   handleStaticRoutes,
@@ -7,7 +8,8 @@ const {
 const { handleUserLogin } = require("../controllers/user");
 
 //Render home page for static
-router.get("/", handleStaticRoutes);
+router.get("/", restrictTo(["NORMAL", "ADMIN"]), handleStaticRoutes);
+router.get("/admin/urls", restrictTo("ADMIN"), handleStaticRoutes);
 router.get("/signup", handleSignUp);
 router.get("/login", (req, res) => {
   return res.render("login");

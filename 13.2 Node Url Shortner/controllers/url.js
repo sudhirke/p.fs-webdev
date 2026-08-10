@@ -4,7 +4,7 @@ const URL = require("../models/url");
 //create a short URL on post request
 async function handleGenerateShortUrl(req, res) {
   try {
-    //console.log("Request body:", req.body); // Log the request body for debugging
+    console.log("Request body:", req.body); // Log the request body for debugging
     const body = req.body;
     const url = body.url; // Extract the URL from the request body
 

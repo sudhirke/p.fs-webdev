@@ -4,7 +4,12 @@ const secret = "64bc468c-6783-4747-a8ce-e375adce971a";
 function setUser(user) {
   //store the payload as jwt tocken
   return jwt.sign(
-    { _id: user._id, email: user.email, username: user.username },
+    {
+      _id: user._id,
+      email: user.email,
+      username: user.username,
+      role: user.role,
+    },
     secret,
   );
 }
