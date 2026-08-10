@@ -3,7 +3,7 @@ const urlRoutes = require("./routes/url"); //Import the routers
 const staticRoutes = require("./routes/staticRouter");
 const userRoutes = require("./routes/user"); //Import the user routes
 const cookieParser = require("cookie-parser");
-const { restrictToLoggedInUserOnly } = require("./middlewares/auth"); //custom middleware to validate logged in user only content
+const { checkForAuthentication, restrictTo } = require("./middlewares/auth"); //custom middleware to validate logged in user only content
 
 const { connectToDatabase } = require("./connect"); //Import the database connection function
 const path = require("path"); //Import the path module for handling file paths
@@ -30,9 +30,10 @@ connectToDatabase(process.env.MONGODB_CONNECTION_STRING)
 app.use(express.json()); //JSON middleware to parse incoming JSON requests
 app.use(express.urlencoded({ extended: false })); //URL-encoded middleware to parse incoming URL-encoded requests
 app.use(cookieParser()); //Cookie parser middleware to read cookie value
+app.use(checkForAuthentication); //Check for user authentication
 
 app.use("/", staticRoutes);
-app.use("/url", restrictToLoggedInUserOnly, urlRoutes); //Route Handler for URL routes.  Added restrictToLoggedInUserOnly inline middleware
+app.use("/url", restrictTo(["NORMAL"]), urlRoutes); //Route Handler for URL routes. Restict this page to "NORMAL" users only
 app.set("view engine", "ejs"); //View Engine EJS
 app.set("views", path.resolve("./views")); //Set the views directory for EJS templates
 
