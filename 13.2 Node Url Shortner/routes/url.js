@@ -15,7 +15,7 @@ router.get("/:shortId", handleGetRedirectUrls);
 router.post("/", handleGenerateShortUrl);
 
 // Commeting this since we are handling this with staticRoutes
-//.get("/", handleListAllShortUrls);
+router.get("/url", handleListAllShortUrls);
 
 //Export the router
 module.exports = router;
