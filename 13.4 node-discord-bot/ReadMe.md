@@ -1,3 +1,4 @@
+### NODE-JS | Discord Bot
 - Project created using discord-js app creation tutorial https://discordjs.guide/legacy/app-creation/main-file
 - Uses discrord JS: https://discord.js.org/
 - create config.json file for variables (token, applicationid and server-id)
