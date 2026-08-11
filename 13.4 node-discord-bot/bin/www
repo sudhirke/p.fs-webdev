@@ -1,0 +1,183 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+const fs = require("fs");
+const path = require("path");
+var app = require("../app");
+var debug = require("debug")("13.4-node-discord-bot:server");
+var http = require("http");
+
+const {
+  Client,
+  GatewayIntentBits,
+  Collection,
+  Events,
+  MessageFlags,
+} = require("discord.js"); //Import additional objects from Discord JS
+
+const { token } = require("../config.json"); //Read token from config file
+
+//Create Discord Bot client
+const client = new Client({
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.MessageContent,
+  ],
+});
+
+//**COMMANDS */
+//handle when client is ready
+client.once(Events.ClientReady, (readyClient) => {
+  console.log(`Ready! logged in as ${readyClient.user.tag}`);
+});
+
+//attach commands with client
+client.commands = new Collection();
+
+const foldersPath = path.join(__dirname, "commands");
+const commandFolders = fs.readdirSync(foldersPath);
+
+//Dynamically load all commands from the comands and utilities folder
+for (const folder of commandFolders) {
+  const commandsPath = path.join(foldersPath, folder);
+  const commandFiles = fs
+    .readdirSync(commandsPath)
+    .filter((file) => file.endsWith(".js"));
+  for (const file of commandFiles) {
+    const filePath = path.join(commandsPath, file);
+    const command = require(filePath);
+    // Set a new item in the Collection with the key as the command name and the value as the exported module
+    if ("data" in command && "execute" in command) {
+      client.commands.set(command.data.name, command);
+    } else {
+      console.log(
+        `[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`,
+      );
+    }
+  }
+}
+
+//* HANDLE EVENTS */
+//handle event when new message is created
+client.on(Events.MessageCreate, (message) => {
+  if (message.author.bot) return; //Dont reply if message is from BOT
+  message.reply({
+    content: `SPX-BOT : how are you doing ${message.author.globalName}`,
+  });
+});
+
+//handle interactions on stash commands
+client.on(Events.InteractionCreate, (interation) => {
+  //Make sure to only handle slash commands in this function
+  if (!interation.isChatInputCommand()) return;
+  console.log(interation);
+
+  //get the command detiails from interaction
+  const command = interaction.client.commands.get(interaction.commandName);
+	if (!command) {
+		console.error(`No command matching ${interaction.commandName} was found.`);
+		return;
+	}
+	try {
+    //call execute methond on command if command found
+		await command.execute(interaction);
+	} catch (error) {
+		console.error(error);
+		if (interaction.replied || interaction.deferred) {
+			await interaction.followUp({
+				content: 'There was an error while executing this command!',
+				flags: MessageFlags.Ephemeral,
+			});
+		} else {
+			await interaction.reply({
+				content: 'There was an error while executing this command!',
+				flags: MessageFlags.Ephemeral,
+			});
+		}
+	}
+});
+
+//Login to keep ready
+client.login(token);
+
+//---- CODE TO KEEP SERVER READY ---
+/**
+ * Get port from environment and store in Express.
+ */
+
+var port = normalizePort(process.env.PORT || "3000");
+app.set("port", port);
+
+/**
+ * Create HTTP server.
+ */
+
+var server = http.createServer(app);
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+server.listen(port);
+server.on("error", onError);
+server.on("listening", onListening);
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+  if (error.syscall !== "listen") {
+    throw error;
+  }
+
+  var bind = typeof port === "string" ? "Pipe " + port : "Port " + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case "EACCES":
+      console.error(bind + " requires elevated privileges");
+      process.exit(1);
+      break;
+    case "EADDRINUSE":
+      console.error(bind + " is already in use");
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+  var addr = server.address();
+  console.log(`Node server listening on  ${addr.address}:${addr.port}`);
+  var bind = typeof addr === "string" ? "pipe " + addr : "port " + addr.port;
+  debug("Listening on " + bind);
+}
