@@ -2,6 +2,7 @@ const { SlashCommandBuilder } = require("discord.js");
 
 //The individual command files, containing slash command definitions and functionality.
 module.exports = {
+  cooldown: 5,
   data: new SlashCommandBuilder()
     .setName("server")
     .setDescription("Provides information about the server."),

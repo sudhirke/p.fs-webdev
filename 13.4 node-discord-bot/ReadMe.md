@@ -8,7 +8,7 @@
   }
 
 - Deploy the command into discord server using following command
-  -- node deploycmd.js
+  -- node deploy.js
 
 - Start the service using
   -- npm start
