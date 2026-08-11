@@ -2,8 +2,9 @@
   "name": "13.4-node-discord-bot",
   "version": "0.0.0",
   "private": true,
+  "main": "bot.js",
   "scripts": {
-    "start": "nodemon ./bin/www"
+    "start": "nodemon bot.js"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
