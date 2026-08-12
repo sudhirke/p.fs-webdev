@@ -1,5 +1,9 @@
 const { createHmac, randomBytes } = require("crypto");
 const { Schema, model } = require("mongoose");
+const {
+  createTokenForUser,
+  validateToken,
+} = require("../services/authentication");
 
 //define user schema
 const userSchema = new Schema(
@@ -16,7 +20,7 @@ const userSchema = new Schema(
 
 //create mongoose virtuals for password decryption
 // Create a virtual property `matchPassword` that's computed from `email`.
-userSchema.static("matchPassword", async function (email, password) {
+userSchema.static("matchPasswordAndGenerateToken", async function (email, password) {
   //return this.email.slice(this.email.indexOf('@') + 1);
   const user = await this.findOne({ email });
 
@@ -39,8 +43,10 @@ userSchema.static("matchPassword", async function (email, password) {
   if (hashedPassword !== userProvidedHash)
     throw new Error("Incorrect password!!");
 
-  //return if passwords are matching
-  return user;
+  //return user token if password matches
+  //return user;
+  const token = createTokenForUser(user);
+  return token;
 });
 
 //middleware to encrypt password

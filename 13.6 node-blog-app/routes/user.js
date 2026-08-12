@@ -31,12 +31,20 @@ router.post("/signin", async (req, res) => {
 
   //call virual methond use await to complete DB operations
   try {
-    const user = await User.matchPassword(email, password);
-    res.redirect("/");
+    const token = await User.matchPasswordAndGenerateToken(email, password);
+    //console.log(token);
+    //create a cookie with token and redirect to home page
+    return res.cookie("token", token).redirect("/");
   } catch (err) {
     console.log(err);
-    res.redirect("/users/signin");
+    res.render("signin", { error: "Incorrect email of password." });
   }
+});
+
+//handle logout
+router.get("/logout", (req, res) => {
+  //clear the cookie and redirect to hom
+  res.clearCookie("token").redirect("/");
 });
 
 module.exports = router;

@@ -1,9 +1,11 @@
 const path = require("path");
+const cookieParser = require("cookie-parser");
 const express = require("express");
 const config = require("./config.json");
 const userRoute = require("./routes/user");
 //connect mongodb
 const mongoose = require("mongoose");
+const { checkForAuthenticationCookie } = require("./middleware/authentication");
 mongoose
   .connect(config.DB_CONN_STRING)
   .then((e) => console.log("Database Connected!!!"));
@@ -14,12 +16,16 @@ const PORT = config.PORT || 8000;
 
 //middleware
 app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(checkForAuthenticationCookie("token"));
+
+//set view engines
 app.set("view engine", "ejs");
 app.set("views", path.resolve("./views"));
 
 //render home page
 app.get("/", (req, res) => {
-  res.render("home");
+  res.render("home", { user: req.user });
 });
 
 //register user route
