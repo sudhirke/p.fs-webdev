@@ -10,9 +10,10 @@
       <h1>Welcome to the Homepage</h1>
     </header>
     <main>
-      <p>File Uploader.</p>
-      <form>
-        <input type="file" name="profileImage" />
+      <p>MULTR File Uploader.</p>
+
+      <form action="/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="avatar" />
         <button type="submit">Upload</button>
       </form>
     </main>
