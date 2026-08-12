@@ -14,6 +14,35 @@ const userSchema = new Schema(
   { timestamps: true },
 );
 
+//create mongoose virtuals for password decryption
+// Create a virtual property `matchPassword` that's computed from `email`.
+userSchema.static("matchPassword", async function (email, password) {
+  //return this.email.slice(this.email.indexOf('@') + 1);
+  const user = await this.findOne({ email });
+
+  //Check if user found
+  if (!user) {
+    console.log("User not found!");
+    throw new Error("User not found in the register");
+  }
+
+  //extract salt and password from database
+  const salt = user.salt;
+  const hashedPassword = user.password;
+
+  //encrypt user provided password
+  const userProvidedHash = createHmac("sha256", salt)
+    .update(password)
+    .digest("hex");
+
+  //if password does not match throw error
+  if (hashedPassword !== userProvidedHash)
+    throw new Error("Incorrect password!!");
+
+  //return if passwords are matching
+  return user;
+});
+
 //middleware to encrypt password
 userSchema.pre("save", async function (next) {
   const user = this;
@@ -31,7 +60,7 @@ userSchema.pre("save", async function (next) {
   this.salt = salt;
   this.password = hashPassword;
 
-  next();
+  next;
 });
 
 //create a user model
