@@ -27,7 +27,7 @@ router.get("/addnew", (req, res) => {
 
 //get route to view specific blog page
 router.get("/:id", async (req, res) => {
-  const blog = await Blog.findById(req.params.id);
+  const blog = await Blog.findById(req.params.id).populate("createdBy"); //populate the created by user
   res.render("blog", { user: req.user, blog: blog });
 });
 

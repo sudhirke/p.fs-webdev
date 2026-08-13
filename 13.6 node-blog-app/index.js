@@ -4,6 +4,7 @@ const express = require("express");
 const config = require("./config.json");
 const userRouter = require("./routes/user");
 const blogRouter = require("./routes/blog");
+var moment = require("moment"); // require moment js
 
 const Blog = require("./models/blog");
 //connect mongodb
@@ -32,7 +33,7 @@ app.get("/", async (req, res) => {
   //fetch blogs from database
   const blogs = await Blog.find({}).sort("createdAt");
   console.log(blogs);
-  res.render("home", { user: req.user, blogs: blogs });
+  res.render("home", { user: req.user, blogs: blogs, moment });
 });
 
 //register user route

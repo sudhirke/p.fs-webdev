@@ -7,6 +7,7 @@ const secret = config.JWTSECRET;
 function createTokenForUser(user) {
   const payload = {
     _id: user._id,
+    fullName: user.fullName,
     email: user.email,
     profileImage: user.profileImage,
     role: user.role,
