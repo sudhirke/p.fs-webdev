@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title><%= blog.title %></title>
+    <%- include('./partials/head') %>
+  </head>
+  <body>
+    <%- include('./partials/scripts') %>
+    <section><%- include('./partials/navbar')%></section>
+
+    <div class="container mt-4 p-2">
+      <h4><%=blog.title%></h4>
+      <img
+        src="<%=blog.coverImage %>"
+        class="rounded mx-auto d-block"
+        alt="Cover"
+        style="width: auto; height: 200px"
+      />
+      <p class="lead"><%=blog.body%></p>
+    </div>
+  </body>
+</html>

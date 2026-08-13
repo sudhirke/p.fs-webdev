@@ -25,7 +25,11 @@ router.get("/addnew", (req, res) => {
   });
 });
 
-//router.get("/:id", async (req, res) => {});
+//get route to view specific blog page
+router.get("/:id", async (req, res) => {
+  const blog = await Blog.findById(req.params.id);
+  res.render("blog", { user: req.user, blog: blog });
+});
 
 //submit handler for creating new blog
 router.post("/", upload.single("coverImage"), async (req, res) => {
