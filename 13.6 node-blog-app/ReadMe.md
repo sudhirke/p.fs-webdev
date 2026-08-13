@@ -21,3 +21,12 @@
   "PORT": 8002,
   "JWTSECRET": "randon text used as secret"
   }
+
+### Screen Shots
+
+- Home Page
+  ![blog home](show-blog.png)
+- Create Blog
+  ![add-blog](create-blog.png)
+- Display Blog
+  ![display](show-blog.png)

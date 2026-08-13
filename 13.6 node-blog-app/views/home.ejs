@@ -11,9 +11,8 @@
     <div class="container mt-4">
 
 <h4>My recent blogs</h4>
-<div class="card-group">
+<div class="row row-cols-1 row-cols-md-3 g-2">
 <% blogs.map((blog) => { %>
-
   <div class="card mb-3" style="max-width: 540px;">
   <div class="row g-1">
     <div class="col-md-4">
@@ -26,11 +25,11 @@
 
       <div class="container">
         <img
-          src="<%=user.profileImage%>"
+          src="<%=blog.createdBy.profileImage%>"
           class="rounded-circle"
           width="48px"
         />
-        <small><%=user.fullName%></small>
+        <small><%=blog.createdBy.fullName%></small>
       </div>
               <div class="d-grid gap-2 d-md-flex justify-content-md-end">
         <a class="btn btn-primary" href="/blog/<%=blog._id%>" role="button">View</a>

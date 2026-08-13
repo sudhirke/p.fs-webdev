@@ -24,7 +24,43 @@
         alt="Cover"
         style="width: auto; height: 200px"
       />
-      <p class="lead"><%=blog.body%></p>
+      <p class="small"><%=blog.body%></p>
     </div>
-  </body>
+ 
+  <div class="container mt-4">
+    <h6>Comments [<%= comments.length %>] </h6>
+    <% if(locals.user) {%>
+    <form
+      action="/blog/comment/<%=blog._id%>"
+      method="post"
+      placeholder="enter your comment"
+    >
+      <div class="mb-3">
+        <input type="text"
+          class="form-control"
+          name="content"
+        ></input>
+      </div>
+
+      <button type="submit" class="btn btn-sm btn-primary">Post</button>
+    </form>
+    <% } %>
+
+  <div class="mt-3">
+    <% comments.forEach(comment => {%>
+      <div class="p-2">
+        <img
+          src="<%=comment.createdBy.profileImage%>"
+          class="rounded-circle"
+          width="32px"
+        />
+        <small><%=comment.createdBy.fullName%></small>
+        <p><small><%=comment.content%></small></p>
+        <hr class="light-gray"/>
+      </div>
+      <%}); %>
+  </div>
+
+  </div>
+   </body>
 </html>

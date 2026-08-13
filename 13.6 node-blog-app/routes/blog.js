@@ -1,4 +1,5 @@
 const Blog = require("../models/blog");
+const Comment = require("../models/comments");
 const { Router } = require("express");
 const router = Router();
 
@@ -28,7 +29,12 @@ router.get("/addnew", (req, res) => {
 //get route to view specific blog page
 router.get("/:id", async (req, res) => {
   const blog = await Blog.findById(req.params.id).populate("createdBy"); //populate the created by user
-  res.render("blog", { user: req.user, blog: blog });
+  const comments = await Comment.find({ blogId: req.params.id }).populate(
+    "createdBy",
+  );
+
+  console.log(comments);
+  res.render("blog", { user: req.user, blog: blog, comments });
 });
 
 //submit handler for creating new blog
@@ -45,6 +51,18 @@ router.post("/", upload.single("coverImage"), async (req, res) => {
 
   //redirect to page that displays blog
   return res.redirect(`/blog/${blog._id}`);
+});
+
+//route to handle comments
+router.post("/comment/:blogId", async (req, res) => {
+  //Create a new comment in database and refer to blog and user
+  const comment = await Comment.create({
+    content: req.body.content,
+    blogId: req.params.blogId,
+    createdBy: req.user._id,
+  });
+
+  res.redirect(`/blog/${req.params.blogId}`);
 });
 
 //export router

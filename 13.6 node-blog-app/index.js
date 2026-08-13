@@ -31,8 +31,7 @@ app.set("views", path.resolve("./views"));
 //render home page
 app.get("/", async (req, res) => {
   //fetch blogs from database
-  const blogs = await Blog.find({}).sort("createdAt");
-  console.log(blogs);
+  const blogs = await Blog.find({}).populate("createdBy").sort("createdAt");
   res.render("home", { user: req.user, blogs: blogs, moment });
 });
 
