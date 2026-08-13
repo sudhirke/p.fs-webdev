@@ -7,6 +7,32 @@
   <body>
     <%- include('./partials/scripts') %>
     <section><%- include('./partials/navbar')%></section>
-    <div><%= JSON.stringify(user)%></div>
+   
+    <div class="container mt-4 p-2">
+
+<h4>My recent blogs</h4>
+<div class="card-group">
+<% blogs.map((blog) => { %>
+
+  <div class="card mb-3" style="max-width: 540px;">
+  <div class="row g-0">
+    <div class="col-md-4">
+      <img src="<%= blog.coverImage%>" class="img-fluid rounded-start" alt="...">
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h4 class="card-title"><%=blog.title %></h4>
+        <p class="card-text"><%= blog.body %></p>
+        <p class="card-text"><small class="text-body-secondary"><%=blog.updatedAt%></small></p>
+        <a class="btn btn-primary" href="/blog/<%=blog._id%>" role="button">View</a>
+
+      </div>
+    </div>
+  </div>
+</div>
+  <% }); %>
+</div>
+
+    </div>
   </body>
 </html>

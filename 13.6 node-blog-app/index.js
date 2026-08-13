@@ -4,6 +4,8 @@ const express = require("express");
 const config = require("./config.json");
 const userRouter = require("./routes/user");
 const blogRouter = require("./routes/blog");
+
+const Blog = require("./models/blog");
 //connect mongodb
 const mongoose = require("mongoose");
 const { checkForAuthenticationCookie } = require("./middleware/authentication");
@@ -19,14 +21,18 @@ const PORT = config.PORT || 8000;
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(checkForAuthenticationCookie("token"));
+app.use(express.static(path.resolve("./public"))); // consider everything under public folder as static content
 
 //set view engines
 app.set("view engine", "ejs");
 app.set("views", path.resolve("./views"));
 
 //render home page
-app.get("/", (req, res) => {
-  res.render("home", { user: req.user });
+app.get("/", async (req, res) => {
+  //fetch blogs from database
+  const blogs = await Blog.find({}).sort("createdAt");
+  console.log(blogs);
+  res.render("home", { user: req.user, blogs: blogs });
 });
 
 //register user route
