@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Home Page</title>
+    <%- include('./partials/head') %>
+  </head>
+  <body>
+    <%- include('./partials/scripts') %>
+    <section><%- include('./partials/navbar')%></section>
+
+    <div class="container mt-4 p-4">
+      <h3>
+        Create new blog
+        <small class="text-body-secondary"
+          >share your thoughts with world!!</small
+        >
+      </h3>
+      <p class="lead">Only blog lets your mind speak to the world .</p>
+      <form action="/blog" method="post" enctype="multipart/form-data">
+        <div class="mb-3">
+          <label for="title" class="form-label">Title</label>
+          <input
+            type="text"
+            class="form-control"
+            id="title"
+            name="title"
+            placeholder="Title of your blog"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="body" class="form-label">Body</label>
+          <textarea
+            class="form-control"
+            id="body"
+            name="body"
+            rows="3"
+          ></textarea>
+        </div>
+
+        <div class="mb-3">
+          <label for="coverImage" class="form-label">Cover Image</label>
+          <input class="form-control" type="file" id="" name="coverImage" />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+  </body>
+</html>

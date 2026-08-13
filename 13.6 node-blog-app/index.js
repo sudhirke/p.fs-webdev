@@ -2,7 +2,8 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const express = require("express");
 const config = require("./config.json");
-const userRoute = require("./routes/user");
+const userRouter = require("./routes/user");
+const blogRouter = require("./routes/blog");
 //connect mongodb
 const mongoose = require("mongoose");
 const { checkForAuthenticationCookie } = require("./middleware/authentication");
@@ -29,7 +30,8 @@ app.get("/", (req, res) => {
 });
 
 //register user route
-app.use("/user", userRoute);
+app.use("/user", userRouter);
+app.use("/blog", blogRouter);
 
 //start the server
 app.listen(PORT, () => {
