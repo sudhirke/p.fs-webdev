@@ -1,0 +1,26 @@
+{
+  "name": "13.7-nodejs-express-websocket",
+  "version": "1.0.0",
+  "description": "NodeJS application that uses websocket and express.",
+  "keywords": [
+    "nodejs",
+    "express",
+    "websocket"
+  ],
+  "author": "Sudhir Kesharwani",
+  "type": "nodejs",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app",
+    "dev": "nodemon app",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "socket.io": "^4.8.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
