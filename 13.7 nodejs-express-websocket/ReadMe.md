@@ -12,3 +12,4 @@
 
 -- websocket
 -- streams
+-- Node Clusters (NodeJS-Clusters)[https://nodejs.org/api/cluster.html]
