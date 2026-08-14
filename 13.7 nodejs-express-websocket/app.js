@@ -3,6 +3,8 @@ const express = require("express");
 const http = require("http"); //Note http is required in this case
 const { Server } = require("socket.io"); //1. Require Server from socket.io
 const path = require("path");
+const status = require("express-status-monitor"); //expres status monitor for checking performance and memory consumption
+const fs = require("fs");
 
 const app = express();
 const server = http.createServer(app); //create http server
@@ -13,11 +15,20 @@ const PORT = process.env.PORT || 3000;
 
 //Middlewares
 app.use(express.static(path.resolve("./public"))); //to render static contents from public
+app.use(status()); //express status monitur will be available in /status route
 
 //Routes
 app.get("/", (req, res) => {
   return res.sendFile("./public/index.html");
 });
+
+app.get("/stream", (req, res) => {
+  const stream = fs.createReadStream("./data.txt", "utf-8");
+  stream.on("data", (chunk) => res.write(chunk));
+  stream.on("end", () => res.end());
+});
+
+app.get;
 
 // Socket.IO connection handler
 io.on("connection", (socket) => {
