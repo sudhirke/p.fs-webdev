@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Monthly Earnings Breakdown</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+          Arial, sans-serif;
+        background-color: #f8f9fa;
+        color: #333;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        margin: 0;
+      }
+      .chart-container {
+        width: 100%;
+        max-width: 850px;
+        background: #ffffff;
+        padding: 24px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      }
+      h2 {
+        margin-top: 0;
+        margin-bottom: 4px;
+        font-size: 1.25rem;
+        color: #1a1a1a;
+      }
+      p {
+        margin-top: 0;
+        margin-bottom: 20px;
+        font-size: 0.875rem;
+        color: #666;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="chart-container">
+      <h2>Monthly Earnings by Category</h2>
+      <p>Partner activity breakdown (Dec 2025 – Aug 2026)</p>
+      <canvas id="earningsChart"></canvas>
+    </div>
+
+    <script>
+      const ctx = document.getElementById("earningsChart").getContext("2d");
+
+      const labels = [
+        "Dec 2025",
+        "Jan 2026",
+        "Feb 2026",
+        "Mar 2026",
+        "Apr 2026",
+        "May 2026",
+        "Jun 2026",
+        "Jul 2026",
+        "Aug 2026",
+      ];
+
+      const data = {
+        labels: labels,
+        datasets: [
+          {
+            label: "Form Sales",
+            data: [0, 0, 0, 6, 12, 70, 142.1, 80.1, 113.0],
+            backgroundColor: "#36A2EB",
+            borderRadius: 8,
+          },
+          {
+            label: "Plan Commissions",
+            data: [26, 20, 26, 27, 37, 27, 31, 26, 11],
+            backgroundColor: "#FF6384",
+            borderRadius: 8,
+          },
+          {
+            label: "Referral Bonuses",
+            data: [0, 0, 6, 19, 31, 32, 32, 31, 32],
+            backgroundColor: "#FFCE56",
+            borderRadius: 8,
+          },
+        ],
+      };
+
+      const config = {
+        type: "bar",
+        data: data,
+        options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          plugins: {
+            tooltip: {
+              mode: "index",
+              intersect: false,
+              callbacks: {
+                label: function (context) {
+                  let label = context.dataset.label || "";
+                  if (label) {
+                    label += ": ";
+                  }
+                  if (context.parsed.y !== null) {
+                    label += new Intl.NumberFormat("en-US", {
+                      style: "currency",
+                      currency: "USD",
+                    }).format(context.parsed.y);
+                  }
+                  return label;
+                },
+              },
+            },
+            legend: {
+              position: "bottom",
+              labels: {
+                padding: 20,
+                usePointStyle: true,
+                pointStyle: "circle",
+              },
+            },
+          },
+          scales: {
+            x: {
+              grid: {
+                display: false,
+              },
+            },
+            y: {
+              beginAtZero: true,
+              ticks: {
+                callback: function (value) {
+                  return "$" + value;
+                },
+              },
+              grid: {
+                color: "#f0f0f0",
+              },
+            },
+          },
+        },
+      };
+
+      new Chart(ctx, config);
+    </script>
+  </body>
+</html>
