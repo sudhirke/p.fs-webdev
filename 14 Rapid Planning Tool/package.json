@@ -1,0 +1,24 @@
+{
+  "name": "14-rapid-planning-tool",
+  "version": "1.0.0",
+  "description": "This is a simple application inspired by Rapid Planning Tool by Tim Yewchuk",
+  "keywords": [
+    "node",
+    "express",
+    "Rapid-Plannint-Tool"
+  ],
+  "author": "Sudhir Kesharwani",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index",
+    "start": "node index",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "mongoose": "^9.9.3",
+    "nodemon": "^3.1.14"
+  }
+}
