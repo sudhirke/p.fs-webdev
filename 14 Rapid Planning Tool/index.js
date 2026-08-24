@@ -1,10 +1,19 @@
 require("dotenv").config();
 const express = require("express");
 const app = express();
+const planRouter = require("./routes/plan.route");
+
 const PORT = process.env.PORT || 8000;
+
+const Plan = require("./models/plan.model");
 
 //MODDULES
 app.use(express.json());
+app.use(express.urlencoded({ extended: false })); //to receive details from form body
+
+//ROUTERS
+//plan routes
+app.use("/api/plan", planRouter);
 
 //ROUTES
 app.get("/", (req, res) => {
