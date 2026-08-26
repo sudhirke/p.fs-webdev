@@ -1,4 +1,8 @@
-const { S3Client, GetObjectCommand } = require("@aws-sdk/client-s3");
+const {
+  S3Client,
+  GetObjectCommand,
+  PutObjectCommand,
+} = require("@aws-sdk/client-s3");
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 const express = require("express");
 require("dotenv").config();
@@ -13,7 +17,7 @@ const s3Client = new S3Client({
 });
 
 //create function to get public url for AWS S3 Bucket item
-async function getObjectUrl(bucketKey) {
+async function downloadUrl(bucketKey) {
   //Create command object
   const command = new GetObjectCommand({
     Bucket: process.env.AWS_S3_BUCKET,
@@ -28,10 +32,32 @@ async function getObjectUrl(bucketKey) {
   return url;
 }
 
+//function to upload content to S3 Bucket using pre-signed url
+async function uploadFile(fileName, contentType) {
+  //create command oject
+  //Create command object
+  const command = new PutObjectCommand({
+    Bucket: process.env.AWS_S3_BUCKET,
+    Key: `spx-uploads/user-uploads/${fileName}`,
+    ContentType: contentType,
+  });
+
+  //generate a preSigned Url that expries in 2 minutes
+  const url = await getSignedUrl(s3Client, command, { expiresIn: 180 });
+
+  return url;
+}
+
 async function main() {
-  console.log(
+  /*   console.log(
     `URL for drit-tech-stack.png: `,
-    await getObjectUrl("spx-images/drit-tech-stack.png"),
+    await downloadUrl("spx-images/drit-tech-stack.png"),
+  ); */
+
+  //Upload url
+  console.log(
+    "Uplopad Link:",
+    await uploadFile(`Calendar-${Date.now()}.pdf`, "application/pdf"),
   );
 }
 
