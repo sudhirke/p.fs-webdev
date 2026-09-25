@@ -1,4 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import type { Cat } from './interfaces/cat.interface.ts';
 import { CatsLogger } from './cats.logger.js';
 
@@ -22,14 +27,23 @@ export class CatsService {
 
   findOne(id: string): Cat | undefined {
     this.catsLogger.log(`Returning cat with id: ${id}`);
-    return this.cats.find((cat) => cat.id === id);
+    const cat = this.cats.find((cat) => cat.id === id);
+    if (!cat) {
+      throw new NotFoundException('No cat found with this id!! Mew');
+    }
+    return cat;
   }
 
   findByName(name: string): Cat[] {
     this.catsLogger.log(`Returning cats with name: ${name}`);
-    return this.cats.filter((cat) =>
+    const cat = this.cats.filter((cat) =>
       cat.name.toLowerCase().includes(name.toLowerCase()),
     );
+
+    if (cat.length <= 0) {
+      throw new NotFoundException(`No cat found with that name: ${name}`);
+    }
+    return cat;
   }
 
   //Create a new cat and add it to the cats array

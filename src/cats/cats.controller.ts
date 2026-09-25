@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Patch, Body, Param } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Patch,
+  Body,
+  Param,
+  HttpStatus,
+  HttpException,
+} from '@nestjs/common';
 import { CreateCatDto } from './dto/create-cat.dto.js';
 import { CatsService } from './cats.service';
 import { Cat } from './interfaces/cat.interface';
@@ -16,7 +25,18 @@ export class CatsController {
   //Get route to return all cats using the CatsService
   @Get()
   async findAll(): Promise<Cat[]> {
-    return this.catsService.findAll();
+    try {
+      return this.catsService.findAll();
+    } catch (error) {
+      throw new HttpException(
+        {
+          error: 'Unable to retrieve cat details!!',
+          status: HttpStatus.FORBIDDEN,
+        },
+        HttpStatus.FORBIDDEN,
+        { cause: error },
+      );
+    }
   }
 
   @Get(':id')
