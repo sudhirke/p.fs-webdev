@@ -24,6 +24,11 @@ export class CatsController {
     return this.catsService.findOne(id);
   }
 
+  @Get('search/:name')
+  async searchByName(@Param('name') name: string): Promise<Cat[]> {
+    return this.catsService.findByName(name);
+  }
+
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateCatDto: CreateCatDto) {
     this.catsService.update(id, updateCatDto);

@@ -25,6 +25,13 @@ export class CatsService {
     return this.cats.find((cat) => cat.id === id);
   }
 
+  findByName(name: string): Cat[] {
+    this.catsLogger.log(`Returning cats with name: ${name}`);
+    return this.cats.filter((cat) =>
+      cat.name.toLowerCase().includes(name.toLowerCase()),
+    );
+  }
+
   //Create a new cat and add it to the cats array
   create(cat: Cat) {
     this.cats.push(cat);
