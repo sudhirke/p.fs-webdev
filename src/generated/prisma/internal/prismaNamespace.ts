@@ -400,7 +400,9 @@ export const ModelName = {
   User: 'User',
   Session: 'Session',
   Account: 'Account',
-  Verification: 'Verification'
+  Verification: 'Verification',
+  Hackathon: 'Hackathon',
+  HackathonParticipant: 'HackathonParticipant'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -416,7 +418,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "session" | "account" | "verification"
+    modelProps: "user" | "session" | "account" | "verification" | "hackathon" | "hackathonParticipant"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -716,6 +718,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Hackathon: {
+      payload: Prisma.$HackathonPayload<ExtArgs>
+      fields: Prisma.HackathonFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.HackathonFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HackathonPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.HackathonFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HackathonPayload>
+        }
+        findFirst: {
+          args: Prisma.HackathonFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HackathonPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.HackathonFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HackathonPayload>
+        }
+        findMany: {
+          args: Prisma.HackathonFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HackathonPayload>[]
+        }
+        create: {
+          args: Prisma.HackathonCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HackathonPayload>
+        }
+        createMany: {
+          args: Prisma.HackathonCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.HackathonCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HackathonPayload>[]
+        }
+        delete: {
+          args: Prisma.HackathonDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HackathonPayload>
+        }
+        update: {
+          args: Prisma.HackathonUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HackathonPayload>
+        }
+        deleteMany: {
+          args: Prisma.HackathonDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.HackathonUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.HackathonUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HackathonPayload>[]
+        }
+        upsert: {
+          args: Prisma.HackathonUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HackathonPayload>
+        }
+        aggregate: {
+          args: Prisma.HackathonAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateHackathon>
+        }
+        groupBy: {
+          args: Prisma.HackathonGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.HackathonGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.HackathonCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.HackathonCountAggregateOutputType> | number
+        }
+      }
+    }
+    HackathonParticipant: {
+      payload: Prisma.$HackathonParticipantPayload<ExtArgs>
+      fields: Prisma.HackathonParticipantFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.HackathonParticipantFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HackathonParticipantPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.HackathonParticipantFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HackathonParticipantPayload>
+        }
+        findFirst: {
+          args: Prisma.HackathonParticipantFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HackathonParticipantPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.HackathonParticipantFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HackathonParticipantPayload>
+        }
+        findMany: {
+          args: Prisma.HackathonParticipantFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HackathonParticipantPayload>[]
+        }
+        create: {
+          args: Prisma.HackathonParticipantCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HackathonParticipantPayload>
+        }
+        createMany: {
+          args: Prisma.HackathonParticipantCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.HackathonParticipantCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HackathonParticipantPayload>[]
+        }
+        delete: {
+          args: Prisma.HackathonParticipantDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HackathonParticipantPayload>
+        }
+        update: {
+          args: Prisma.HackathonParticipantUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HackathonParticipantPayload>
+        }
+        deleteMany: {
+          args: Prisma.HackathonParticipantDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.HackathonParticipantUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.HackathonParticipantUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HackathonParticipantPayload>[]
+        }
+        upsert: {
+          args: Prisma.HackathonParticipantUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HackathonParticipantPayload>
+        }
+        aggregate: {
+          args: Prisma.HackathonParticipantAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateHackathonParticipant>
+        }
+        groupBy: {
+          args: Prisma.HackathonParticipantGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.HackathonParticipantGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.HackathonParticipantCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.HackathonParticipantCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -812,6 +962,28 @@ export const VerificationScalarFieldEnum = {
 } as const
 
 export type VerificationScalarFieldEnum = (typeof VerificationScalarFieldEnum)[keyof typeof VerificationScalarFieldEnum]
+
+
+export const HackathonScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  isActive: 'isActive',
+  authorId: 'authorId'
+} as const
+
+export type HackathonScalarFieldEnum = (typeof HackathonScalarFieldEnum)[keyof typeof HackathonScalarFieldEnum]
+
+
+export const HackathonParticipantScalarFieldEnum = {
+  id: 'id',
+  hackathonId: 'hackathonId',
+  userId: 'userId'
+} as const
+
+export type HackathonParticipantScalarFieldEnum = (typeof HackathonParticipantScalarFieldEnum)[keyof typeof HackathonParticipantScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1061,6 +1233,8 @@ export type GlobalOmitConfig = {
   session?: Prisma.SessionOmit
   account?: Prisma.AccountOmit
   verification?: Prisma.VerificationOmit
+  hackathon?: Prisma.HackathonOmit
+  hackathonParticipant?: Prisma.HackathonParticipantOmit
 }
 
 /* Types for Logging */

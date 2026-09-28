@@ -8,6 +8,7 @@ import { DatabaseModule } from './lib/database/database.module.js';
 import { PrismaService } from './lib/database/prisma.service.js';
 import { UserModule } from './module/user/user.module.js';
 import { ResponseInterceptor } from './common/interceptors/response.interceptor.js';
+import { HackathonModule } from './module/hackathon/hackathon.module.js';
 
 const requiredEnvironmentVariables = [
   'DATABASE_URL',
@@ -38,6 +39,7 @@ const requiredEnvironmentVariables = [
       }),
     }),
     UserModule,
+    HackathonModule,
   ],
   controllers: [AppController],
   providers: [AppService, ResponseInterceptor],

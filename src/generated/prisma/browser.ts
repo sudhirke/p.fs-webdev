@@ -37,3 +37,13 @@ export type Account = Prisma.AccountModel
  * 
  */
 export type Verification = Prisma.VerificationModel
+/**
+ * Model Hackathon
+ * 
+ */
+export type Hackathon = Prisma.HackathonModel
+/**
+ * Model HackathonParticipant
+ * 
+ */
+export type HackathonParticipant = Prisma.HackathonParticipantModel

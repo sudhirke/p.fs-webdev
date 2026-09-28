@@ -1,0 +1,4 @@
+- Admins create,update and delete hackathons
+- Anyone can browse hackathons
+- Participants can join active hackathon
+- We track who joined which hacakthon and when

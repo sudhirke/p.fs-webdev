@@ -54,7 +54,9 @@ export const ModelName = {
   User: 'User',
   Session: 'Session',
   Account: 'Account',
-  Verification: 'Verification'
+  Verification: 'Verification',
+  Hackathon: 'Hackathon',
+  HackathonParticipant: 'HackathonParticipant'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -130,6 +132,28 @@ export const VerificationScalarFieldEnum = {
 } as const
 
 export type VerificationScalarFieldEnum = (typeof VerificationScalarFieldEnum)[keyof typeof VerificationScalarFieldEnum]
+
+
+export const HackathonScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  isActive: 'isActive',
+  authorId: 'authorId'
+} as const
+
+export type HackathonScalarFieldEnum = (typeof HackathonScalarFieldEnum)[keyof typeof HackathonScalarFieldEnum]
+
+
+export const HackathonParticipantScalarFieldEnum = {
+  id: 'id',
+  hackathonId: 'hackathonId',
+  userId: 'userId'
+} as const
+
+export type HackathonParticipantScalarFieldEnum = (typeof HackathonParticipantScalarFieldEnum)[keyof typeof HackathonParticipantScalarFieldEnum]
 
 
 export const SortOrder = {
