@@ -4,9 +4,9 @@ import { AppController } from './app.controller.js';
 import { AppService } from './app.service.js';
 import { AuthModule } from '@thallesp/nestjs-better-auth';
 import { createAuth } from './lib/auth.js';
-import { UserController } from './user/user.controller.js';
 import { DatabaseModule } from './lib/database/database.module.js';
 import { PrismaService } from './lib/database/prisma.service.js';
+import { UserModule } from './module/user/user.module.js';
 
 const requiredEnvironmentVariables = [
   'DATABASE_URL',
@@ -36,8 +36,9 @@ const requiredEnvironmentVariables = [
         auth: createAuth(prisma),
       }),
     }),
+    UserModule,
   ],
-  controllers: [AppController, UserController],
+  controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {}
