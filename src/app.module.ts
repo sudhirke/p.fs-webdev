@@ -1,13 +1,47 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller.js';
 import { AppService } from './app.service.js';
 import { AuthModule } from '@thallesp/nestjs-better-auth';
-import { auth } from './lib/auth.js'; // Your Better Auth instance
-import { UserController } from './user/user.controller.js';
+import { createAuth } from './lib/auth.js';
+import { DatabaseModule } from './lib/database/database.module.js';
+import { PrismaService } from './lib/database/prisma.service.js';
+import { UserModule } from './module/user/user.module.js';
+import { ResponseInterceptor } from './common/interceptors/response.interceptor.js';
+import { HackathonModule } from './module/hackathon/hackathon.module.js';
+
+const requiredEnvironmentVariables = [
+  'DATABASE_URL',
+  'BETTER_AUTH_SECRET',
+  'BETTER_AUTH_URL',
+] as const;
 
 @Module({
-  imports: [AuthModule.forRoot({ auth })],
-  controllers: [AppController, UserController],
-  providers: [AppService],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      validate: (config: Record<string, unknown>) => {
+        for (const key of requiredEnvironmentVariables) {
+          if (typeof config[key] !== 'string' || config[key].length === 0) {
+            throw new Error(`${key} is required`);
+          }
+        }
+
+        return config;
+      },
+    }),
+    DatabaseModule,
+    AuthModule.forRootAsync({
+      imports: [DatabaseModule],
+      inject: [PrismaService],
+      useFactory: (prisma: PrismaService) => ({
+        auth: createAuth(prisma),
+      }),
+    }),
+    UserModule,
+    HackathonModule,
+  ],
+  controllers: [AppController],
+  providers: [AppService, ResponseInterceptor],
 })
 export class AppModule {}
