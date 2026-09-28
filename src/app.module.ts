@@ -7,6 +7,7 @@ import { createAuth } from './lib/auth.js';
 import { DatabaseModule } from './lib/database/database.module.js';
 import { PrismaService } from './lib/database/prisma.service.js';
 import { UserModule } from './module/user/user.module.js';
+import { ResponseInterceptor } from './common/interceptors/response.interceptor.js';
 
 const requiredEnvironmentVariables = [
   'DATABASE_URL',
@@ -39,6 +40,6 @@ const requiredEnvironmentVariables = [
     UserModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, ResponseInterceptor],
 })
 export class AppModule {}
