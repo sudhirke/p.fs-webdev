@@ -63,6 +63,19 @@ class ClockMechanism {
   }
 }
 
+//MODULE BASED SINGLETON IMPLEMENTATION
+function createStaticConfig() {
+  const config = {
+    apiUrl: "https://api.example.com",
+    timeout: 5000,
+    retries: 3,
+  };
+  return Object.freeze(config); // Freeze the object to make it immutable
+}
+
+//direction call the module based configuration
+console.log(createStaticConfig().apiUrl); // https://api.example.com
+
 // console.log(StationClock.getTime()); // 12:00
 // StationClock.tick();
 // StationClock.tick();
