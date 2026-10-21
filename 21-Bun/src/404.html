@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>404 — Page not found</title>
+	<style>
+		* { box-sizing: border-box; }
+		body {
+			margin: 0;
+			min-height: 100vh;
+			display: grid;
+			place-items: center;
+			padding: 2rem;
+			color: #172033;
+			background: #f4f7fb;
+			font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+			text-align: center;
+		}
+		main { width: min(100%, 540px); }
+		.illustration { width: min(100%, 340px); height: auto; margin-bottom: 1rem; }
+		h1 { margin: 0; font-size: clamp(3rem, 12vw, 5rem); line-height: 1; letter-spacing: -0.06em; }
+		p { margin: 1rem 0 1.75rem; color: #596579; font-size: 1.1rem; }
+		a {
+			display: inline-block;
+			padding: 0.8rem 1.25rem;
+			border-radius: 0.6rem;
+			color: white;
+			background: #3157d5;
+			font-weight: 650;
+			text-decoration: none;
+		}
+		a:hover { background: #2546b5; }
+		a:focus-visible { outline: 3px solid #91a8ff; outline-offset: 3px; }
+	</style>
+</head>
+<body>
+	<main>
+		<svg class="illustration" viewBox="0 0 360 240" role="img" aria-labelledby="picture-title">
+			<title id="picture-title">A lost page in the clouds</title>
+			<circle cx="180" cy="116" r="90" fill="#e2eaff" />
+			<path d="M83 177c-16 0-28-11-28-25 0-13 10-23 23-25 5-22 25-38 49-38 20 0 37 11 45 28 4-2 9-3 14-3 18 0 33 14 33 31 0 18-15 32-34 32H83Z" fill="#fff" stroke="#b9c9f7" stroke-width="4" />
+			<path d="M188 90h42l25 25v61a9 9 0 0 1-9 9h-58a9 9 0 0 1-9-9V99a9 9 0 0 1 9-9Z" fill="#fff" stroke="#3157d5" stroke-width="4" />
+			<path d="M230 91v23a4 4 0 0 0 4 4h20" fill="none" stroke="#3157d5" stroke-width="4" />
+			<path d="M196 137h37m-37 13h29" stroke="#9aabd4" stroke-width="5" stroke-linecap="round" />
+			<circle cx="277" cy="67" r="5" fill="#f6b94a" />
+			<circle cx="92" cy="64" r="4" fill="#f6b94a" />
+		</svg>
+		<h1>404</h1>
+		<p>Sorry, we couldn’t find the page you’re looking for.</p>
+		<a href="/">Go to homepage</a>
+	</main>
+</body>
+</html>
