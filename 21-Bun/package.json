@@ -4,7 +4,9 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "typecheck": "bun check"
+    "typecheck": "bun check",
+    "clean": "rm -rf dist && echo 'Done.'",
+    "start": "bun run --watch index.tsx"
   },
   "devDependencies": {
     "@types/bun": "latest",

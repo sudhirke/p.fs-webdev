@@ -1,8 +1,19 @@
 import figlet from "figlet";
 import index from "./src/index.html";
+import { parseArgs } from "util";
+
+//Parse the launch args from the command line
+const args = parseArgs({
+  options: {
+    port: {
+      type: "string",
+      short: "p",
+    },
+  },
+});
 
 const server = Bun.serve({
-  port: 3000,
+  port: args.values.port || 3000,
   routes: {
     "/": index,
     "/headers": (request) =>
@@ -47,6 +58,25 @@ const server = Bun.serve({
     "/org": () => new Response("SPXPERT Solutions OPC!"),
     "/linkedin": () =>
       Response.redirect("https://www.linkedin.com/in/sudhir-kesharwani/"),
+    "/posts": {
+      GET: async (request) => {
+        if (!Bun.env.API_BASE) {
+          return Response.json(
+            { message: "API KEY not found!!!" },
+            { status: 400 },
+          );
+        }
+
+        //Call the API to get response then wait for rhe json Response
+        const response = await fetch(
+          "https://jsonplaceholder.typicode.com/posts",
+        );
+        const data = await response.json();
+
+        //return the json response
+        return Response.json(data);
+      },
+    },
   },
 
   fetch(Request) {
@@ -61,3 +91,4 @@ const server = Bun.serve({
 });
 
 console.log(`Server Listening on ${server.url}`);
+console.log(Bun.env.API_BASE);
