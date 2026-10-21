@@ -5,6 +5,10 @@ const server = Bun.serve({
   port: 3000,
   routes: {
     "/": index,
+    "/headers": (request) =>
+      Response.json(request.headers, {
+        status: 200,
+      }),
     "/users": {
       GET: () => new Response("GET/Users from Bun!"),
       POST: async (request) => {
@@ -38,10 +42,15 @@ const server = Bun.serve({
       });
     },
     "/dev": () => new Response("Sudhir Kesharwani!"),
+    "/dashboard": () =>
+      new Response(Bun.file("./public/images/dashboard-example.png")),
     "/org": () => new Response("SPXPERT Solutions OPC!"),
+    "/linkedin": () =>
+      Response.redirect("https://www.linkedin.com/in/sudhir-kesharwani/"),
   },
+
   fetch(Request) {
-    //return new Response("Not Found", { status: 404 });
+    //static page for Not found
     return new Response(Bun.file("./src/404.html"), {
       status: 404,
       headers: {
@@ -51,4 +60,4 @@ const server = Bun.serve({
   },
 });
 
-console.log(`Listening on ${server.url}`);
+console.log(`Server Listening on ${server.url}`);
